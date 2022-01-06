@@ -1,0 +1,109 @@
+body {
+  font-family: sans-serif;
+  font-size: 1.1em;
+  background-color:#eee;
+}
+
+.navbar-light .navbar-brand {
+  color: #e6eeff;
+}
+
+.navbar {
+  background-color: #e6eeff;
+  width: 100%;
+  padding: 5px;
+}
+
+.navbar-brand {
+  font-family: 'Trebuchet MS', Times, sans-serif;
+  font-size: 25px;
+  font-weight: bolder;
+  background-color: #99bbff;
+  padding: 10px;
+  margin-left: 5%;
+}
+
+.navbar-collapse {
+  position: absolute;
+  right: 15%;
+  font-size: medium;
+}
+
+.nav-item {
+  font-weight: bold;
+}
+
+.content {
+  width:80%;
+  margin: 15px auto;
+  padding:1em;
+}
+  
+.buttons {
+  margin-bottom: 1em;
+}
+
+.text-left {
+  text-align: left;
+  color: #6699ff;
+  font-family: 'Trebuchet MS', Times, sans-serif
+  font-weight: bolder;
+  
+}
+
+.text-center {
+  color: #6699ff;
+  font-family: 'Trebuchet MS', Times, sans-serif
+  font-weight: bolder;
+}
+
+p:not(.intro) {
+  text-align: justify;
+  color: #000066;
+}
+
+.thumbnail {
+  width:50%;
+}
+
+.main-image {      
+    margin-left: auto;
+    margin-right: auto;
+    width: 45%;
+    float: left;
+}
+
+.col-md-8 {
+  background-color: #ffffff;
+}
+
+.col-sm-12,.col-md-4 {
+  background-color: #ffffff;
+}
+
+div.col-sm-12.col-md-12 div.col-lg-6.col-sm-12 img {
+  width: 100%;
+}
+
+.imagetiles {
+  background-color: #ffffff;
+}
+div.imagetiles div.col-lg-6.col-sm-12 img {
+  width: 100%;
+}
+
+div.col-sm-12.col-md-12 p {
+  color: #003380;
+  font-size: medium;
+}
+
+.panel-body:hover {
+  border-color: #33ccff;
+  border size: 50px;
+}
+
+@include media-breakpoint-down(md) {
+  .col-md-8 {
+    display: block;
+  }
+}
