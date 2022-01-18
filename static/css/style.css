@@ -1,0 +1,29 @@
+ {
+    font-family: 'Quicksand';
+}
+
+.jumbo-bg {
+    background: url('../images/unsplash-elena-mozhvilo.png') no-repeat center;
+    background-size: cover;
+}
+
+.demo-text {
+    font-size: 12px;
+}
+
+.card .card-header {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#selDataset {
+    font-size: 12px;
+}
+
+.belly-bg {
+    background-color: #247be6 !important
+}
+
+.header-font {
+    font-family: 'Arial', serif;
+}
