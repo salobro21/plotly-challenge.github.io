@@ -1,6 +1,5 @@
-//Read in the data
-d3.json("./StarterCode/samples.json").then((data) => {
-  // Grab values from the response json object to build the plots
+d3.json("./data/samples.json").then((data) => {
+
   var Selector = d3.select("#selDataset");
   data.names.forEach((element) => {
     Selector.append("option").text(element).property("value", element);
@@ -14,10 +13,9 @@ function optionChanged(newName) {
   DemographicMetadata(newName);
 }
 
-//Build Function to display the sample metadata, i.e., an individual's demographic information.
 function DemographicMetadata(newName) {
-  d3.json("./StarterCode/samples.json").then((data) => {
-    // Grab values from the response json object to build the plots
+  d3.json("./data/samples.json").then((data) => {
+
     var meta = data.metadata;
     meta = meta.filter((Filt) => Filt.id == newName)[0];
     var demPan = d3.select("#sample-metadata");
@@ -28,13 +26,8 @@ function DemographicMetadata(newName) {
   });
 }
 
-// 1. Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.
-//Use sample_values as the values for the bar chart.
-//Use otu_ids as the labels for the bar chart.
-//Use otu_labels as the hovertext for the chart
-
 function charts(newName) {
-  d3.json("./StarterCode/samples.json").then((data) => {
+  d3.json("./data/samples.json").then((data) => {
     var info = data.samples.filter((sampleObj) => sampleObj.id == newName)[0];
     var otu_ids = info.otu_ids;
     var otu_labels = info.otu_labels;
@@ -79,21 +72,12 @@ function charts(newName) {
       title: "Top 10 Bacteria",
     };
     Plotly.newPlot("bar", barData, barLayout);
-  }); //D3.json
+  });
 }
 
 function optionChanged(newTestSubject) {
-  // Fetch new data each time a new sample is selected
+
   DemographicMetadata(newTestSubject);
   charts(newTestSubject);
 }
-// 2.Create a bubble chart that displays each sample.
-// Use otu_ids for the x values.
-// Use sample_values for the y values.
-// Use sample_values for the marker size.
-// Use otu_ids for the marker colors.
-// Use otu_labels for the text values.
 
-// 3.Display the sample metadata, i.e., an individual's demographic information.
-
-//Advanced: Adapt the Gauge Chart from https://plot.ly/javascript/gauge-charts/ to plot the weekly washing frequency of the individual.
