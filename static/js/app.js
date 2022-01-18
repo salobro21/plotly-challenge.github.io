@@ -1,10 +1,9 @@
-d3.json("./data/samples.json").then((data) => {
-
+d3.json("data/samples.json".then((data) => {
   var Selector = d3.select("#selDataset");
   data.names.forEach((element) => {
     Selector.append("option").text(element).property("value", element);
   });
-  console.log("im running");
+  console.log("Searching...");
   var name = data.names[0];
   charts(name);
   DemographicMetadata(name);
@@ -14,8 +13,7 @@ function optionChanged(newName) {
 }
 
 function DemographicMetadata(newName) {
-  d3.json("./data/samples.json").then((data) => {
-
+  d3.json("data/samples.json").then((data) => {
     var meta = data.metadata;
     meta = meta.filter((Filt) => Filt.id == newName)[0];
     var demPan = d3.select("#sample-metadata");
@@ -27,7 +25,7 @@ function DemographicMetadata(newName) {
 }
 
 function charts(newName) {
-  d3.json("./data/samples.json").then((data) => {
+  d3.json("data/samples.json").then((data) => {
     var info = data.samples.filter((sampleObj) => sampleObj.id == newName)[0];
     var otu_ids = info.otu_ids;
     var otu_labels = info.otu_labels;
@@ -76,7 +74,6 @@ function charts(newName) {
 }
 
 function optionChanged(newTestSubject) {
-
   DemographicMetadata(newTestSubject);
   charts(newTestSubject);
 }
