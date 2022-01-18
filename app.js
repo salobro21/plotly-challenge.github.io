@@ -51,14 +51,14 @@ function buildGraph (idNumber) {
             orientation: "h",
             text: otuLabels.slice(0,10).reverse(),
             marker: {
-              color: 'rgb(112, 148, 219)'
+              color: 'green'
             }
         };
         var barData = [barTrace];
         var barLayout = {
             title: "Instances of Bacteria per Belly Button",
             xaxis: {title: "Sample Value Size"},
-            yaxis: {title: "OTU ID's"}
+            yaxis: {title: "OTU IDs"}
         };
 
         Plotly.newPlot('bar', barData, barLayout);
@@ -71,7 +71,7 @@ function buildGraph (idNumber) {
             marker: {
               size: sampleValues,
               color: otuIds,
-              colorscale: "Earth"
+              colorscale: "Rainbow"
             }
           };
 
