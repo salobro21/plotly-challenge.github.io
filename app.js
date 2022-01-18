@@ -1,81 +1,91 @@
-d3.json("samples.json".then((data) => {
-  var Selector = d3.select("#selDataset");
-  data.names.forEach((element) => {
-    Selector.append("option").text(element).property("value", element);
-  });
-  console.log("Searching...");
-  var name = data.names[0];
-  charts(name);
-  DemographicMetadata(name);
-}),
+function populateDropdown(){
+    var select = d3.select("#selDataset");
 
-function optionChanged(newName) {
-  DemographicMetadata(newName);
-},
+    d3.json('samples.json').then((data) => {
+        var names = data.names;
 
-function DemographicMetadata(newName) {
-  d3.json("samples.json").then((data) => {
-    var meta = data.metadata;
-    meta = meta.filter((Filt) => Filt.id == newName)[0];
-    var demPan = d3.select("#sample-metadata");
-    demPan.html("");
-    Object.entries(meta).forEach(([key, value]) => {
-      demPan.append("h2").text(`${key.toUpperCase()}: ${value}`);
+        names.forEach((id) =>{
+            select.append("option")
+            .text(id)
+            .property("value", id)
+        });
+
     });
-  });
-},
+    
+    demInfo('940');
+    buildGraph('940');
+    
+}
 
-function charts(newName) {
-  d3.json("samples.json").then((data) => {
-    var info = data.samples.filter((sampleObj) => sampleObj.id == newName)[0];
-    var otu_ids = info.otu_ids;
-    var otu_labels = info.otu_labels;
-    var sample_values = info.sample_values;
+function optionChanged(idNumber){
+    console.log(idNumber)
+    demInfo(idNumber);
+    buildGraph(idNumber);
+}
 
-    var yticks = otu_ids
-      .slice(0, 10)
-      .map((otuID) => `OTU ${otuID}`)
-      .reverse();
+function demInfo (idNumber) {
+    var demList = d3.select("#sample-metadata");
+    d3.json('samples.json').then((data) => {
+        var metadata = data.metadata;
+        var cleanedData = metadata.filter(d => d.id == idNumber);
+        cleanedData = cleanedData[0];
+        demList.html("");
+        Object.entries(cleanedData).forEach(([key,value]) => {
+            demList.append("h6").text(`${key} : ${value}`);
+        });
+    });
+}
 
-    var layout = {
-      title: "Bacteria",
-      xaxis: {
-        title: "OTU",
-      },
-      hovermode: "closest",
-    };
+function buildGraph (idNumber) {
+    d3.json('samples.json').then((data) => {
+        var sampleData = data.samples;
+        var cleanedData = sampleData.filter(d => d.id == idNumber);
+        var otuIds = cleanedData[0]['otu_ids'];
+        var sampleValues = cleanedData[0]['sample_values']
+        var otuLabels = cleanedData[0]['otu_labels']
 
-    var trace = {
-      x: otu_ids,
-      y: sample_values,
-      mode: "markers",
-      marker: {
-        size: sample_values,
-        color: otu_ids,
-      },
-    };
+        var barTrace = {
+            x: sampleValues.slice(0,10).reverse(),
+            y: otuIds.map(otu_ids => `OTU ${otu_ids}`).slice(0,10).reverse(),
+            type: 'bar',
+            orientation: "h",
+            text: otuLabels.slice(0,10).reverse(),
+            marker: {
+              color: 'rgb(112, 148, 219)'
+            }
+        };
+        var barData = [barTrace];
+        var barLayout = {
+            title: "Instances of Bacteria per Belly Button",
+            xaxis: {title: "Sample Value Size"},
+            yaxis: {title: "OTU ID's"}
+        };
 
-    data = [trace];
-    Plotly.newPlot("bubble", data, layout);
+        Plotly.newPlot('bar', barData, barLayout);
 
-    var barData = [
-      {
-        y: yticks,
-        x: sample_values.slice(0, 10).reverse(),
-        text: otu_labels.slice(0, 10).reverse(),
-        type: "bar",
-        orientation: "h",
-      },
-    ];
-    var barLayout = {
-      title: "Top 10 Bacteria",
-    };
-    Plotly.newPlot("bar", barData, barLayout);
-  });
-},
+        var bubbleTrace = {
+            x: otuIds,
+            y: sampleValues,
+            mode: 'markers',
+            text: otuLabels,
+            marker: {
+              size: sampleValues,
+              color: otuIds,
+              colorscale: "Earth"
+            }
+          };
 
-function optionChanged(newTestSubject) {
-  DemographicMetadata(newTestSubject);
-  charts(newTestSubject);
-})
+        var bubbleData = [bubbleTrace];
+        var bubbleLayout = {
+            title: "Bacteria Population per Belly Button",
+            xaxis: {title: "OTU ID"},
+            yaxis: {title: "Sample Value Size"}
+        };
 
+        Plotly.newPlot('bubble', bubbleData, bubbleLayout)
+
+    });
+
+}
+
+populateDropdown();
