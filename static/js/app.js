@@ -1,4 +1,4 @@
-d3.json("data/samples.json".then((data) => {
+d3.json("samples.json".then((data) => {
   var Selector = d3.select("#selDataset");
   data.names.forEach((element) => {
     Selector.append("option").text(element).property("value", element);
@@ -7,13 +7,14 @@ d3.json("data/samples.json".then((data) => {
   var name = data.names[0];
   charts(name);
   DemographicMetadata(name);
-});
+}),
+
 function optionChanged(newName) {
   DemographicMetadata(newName);
-}
+},
 
 function DemographicMetadata(newName) {
-  d3.json("data/samples.json").then((data) => {
+  d3.json("samples.json").then((data) => {
     var meta = data.metadata;
     meta = meta.filter((Filt) => Filt.id == newName)[0];
     var demPan = d3.select("#sample-metadata");
@@ -22,10 +23,10 @@ function DemographicMetadata(newName) {
       demPan.append("h2").text(`${key.toUpperCase()}: ${value}`);
     });
   });
-}
+},
 
 function charts(newName) {
-  d3.json("data/samples.json").then((data) => {
+  d3.json("samples.json").then((data) => {
     var info = data.samples.filter((sampleObj) => sampleObj.id == newName)[0];
     var otu_ids = info.otu_ids;
     var otu_labels = info.otu_labels;
@@ -71,10 +72,10 @@ function charts(newName) {
     };
     Plotly.newPlot("bar", barData, barLayout);
   });
-}
+},
 
 function optionChanged(newTestSubject) {
   DemographicMetadata(newTestSubject);
   charts(newTestSubject);
-}
+})
 
